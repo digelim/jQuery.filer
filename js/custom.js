@@ -107,9 +107,27 @@ $(document).ready(function() {
         onSelect: null,
         afterShow: null,
         onRemove: function(itemEl, file, id, listEl, boxEl, newInputEl, inputEl){
-            var file = file.name;
-            $.post('./php/remove_file.php', {file: file});
-        },
+          var file = file.name;
+          var filerKit = $("#filer_input2").prop("jFiler");
+
+          $.each(filerKit.files, function(index, image){
+            if(image.name !== undefined && image.name ===file) {
+            	
+              if (!Array.prototype.remove) {
+                Array.prototype.remove = function(val) {
+                  var i = this.indexOf(val);
+                       return i>-1 ? this.splice(i, 1) : [];
+                };
+              }
+
+              filerKit.files_list.remove(image);
+            
+            }
+          });
+          
+          $.post('./php/remove_file.php', {file: file});
+          
+        },  
         onEmpty: null,
         options: null,
         captions: {
